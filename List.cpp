@@ -1,21 +1,35 @@
-#ifndef __List_H
-#define __List_H
+#include "List.h"
 
-#include "ListNode.h"
+void List::setColor(bool color)
+{
+	this->color = color;
+}
 
-class List {
-pubic:
-	List makeEmpty();
-	bool isEmpty();
-	void insertNode(ListNode node, int index);
-	void deleteNode(int index);
-	void printList();
+List::List(int maxSizeOfList, int headList = 0, int headFree = 0, int size = 0, bool color = WHITE)
+{
+	this->arr = new ListNode[maxSizeOfList];
+}
 
-	
+bool List::getColor()
+{
+	if (this->color == WHITE)
+	{
+		return true;
+	}
+	return false;
+}
 
-private:
-	ListNode *arr;
-	int headList;
-	int headFree;
-};
-#endif
+int List::getSize()
+{
+	return this->size;
+}
+
+int List::getHead()
+{
+	return this->headList;
+}
+
+ListNode* List::getArr()
+{
+	return this->arr;
+}

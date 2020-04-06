@@ -17,6 +17,7 @@ public:
 	ListNode(const ListNode& other);//copy c'tor
 	~ListNode();//d'tor
 	int getData();
+	int getNext();
 
 private:
 	int data;
