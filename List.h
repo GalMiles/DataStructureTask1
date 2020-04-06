@@ -19,7 +19,7 @@ public:
 	List makeEmpty();
 	List();
 	List(int maxSizeOfList, int headList = 0, int headFree = 0, int size = 0, bool color = WHITE);
-	sdssd
+	
 private:
 	ListNode* arr;
 	int headList;
