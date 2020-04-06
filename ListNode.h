@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string.h>
-#include "PC.h"
 
 #pragma warning(disable: 4996)
 
@@ -16,8 +15,12 @@ public:
 	ListNode(int data, int next);//c'tor
 	ListNode(const ListNode& other);//copy c'tor
 	~ListNode();//d'tor
+
+
 	int getData();
 	int getNext();
+	void setNext(int next);
+	void printNode();
 
 private:
 	int data;

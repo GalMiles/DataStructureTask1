@@ -7,19 +7,22 @@
 
 class List {
 public:
+	List(int headList = 0, int headFree = 0, int size = 0, bool color = WHITE); // c'tor
+	List(const List& other);//copy c'tor
+	~List();//d'tor
+
+	List makeEmpty();
 	bool isEmpty();
+	void insertNode(ListNode node, int index);
+	void deleteNode(int index);
+	void printList();
+
 	bool getColor();
 	int getSize();
 	int getHead();
 	ListNode* getArr();
-	void insertNode(ListNode node, int index);
-	void deleteNode(int index);
-	void printList();
 	void setColor(bool color);
-	List makeEmpty();
-	List();
-	List(int maxSizeOfList, int headList = 0, int headFree = 0, int size = 0, bool color = WHITE);
-	
+
 private:
 	ListNode* arr;
 	int headList;
