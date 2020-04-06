@@ -1,5 +1,4 @@
 #include "List.h"
-#include "PC.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -12,7 +11,6 @@ int main()
 	List serverToShow;
 	int serverToCheck,numOfServers;
 	vector<List*> serverList = getInput(numOfServers);
-	bool* boolArr = new bool(numOfServers);
 	cout << "insert server to get linked pc's " << endl;
 	cin >> serverToCheck;
 	serverToShow = FindAccessibleHelper(serverList, serverToCheck);
@@ -32,13 +30,15 @@ vector<List*> getInput(int& numOfServers)
 	cout << "please enter number of linked servers" << endl;
 	cin >> linkedServerNum;
 	for (int i = 0; i < numOfServers; i++)
-		newlst = new List(numOfServers);
+	{
+		newlst = new List[numOfServers];
 		lstOfVectorsToReturn.push_back(newlst);
+	}
 	makeLst(lstOfVectorsToReturn, linkedServerNum);
 	return lstOfVectorsToReturn;
 }
 
-List* makeLst(vector<List*>& lst, int linkedSerever)
+void makeLst(vector<List*>& vectorOfList, int linkedSerever)
 {
 	for (int i = 0; i < linkedSerever; i++)
 	{
@@ -47,7 +47,7 @@ List* makeLst(vector<List*>& lst, int linkedSerever)
 		cin >> servNum;
 		cout << "enter pc number to connect " << endl;
 		cin >> pcToConnect;
-		lst[servNum]->insertNode(pcToConnect);
+		vectorOfList[servNum]->insertNode(pcToConnect);
 	}
 }
 
@@ -55,9 +55,10 @@ List FindAccessibleHelper(vector<List*> listOfServers,int serverToCheck)
 {
 	List serverToShow;
 	serverToShow.makeEmpty();
-	FindAccessibleRec(listOfServers, serverToCheck, serverToShow);
+	FindAccessibleRec(listOfServers, serverToCheck,serverToShow);
 	return serverToShow;
 }
+
 
 void FindAccessibleRec(vector<List*> listOfServers, int serverToCheck,List& lstToReturn)
 {
