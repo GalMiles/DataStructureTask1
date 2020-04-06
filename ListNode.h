@@ -16,11 +16,11 @@ public:
 	ListNode(const ListNode& other);//copy c'tor
 	~ListNode();//d'tor
 
-
 	int getData();
 	int getNext();
 	void setNext(int next);
 	void printNode();
+	const ListNode& operator=(const ListNode& other);
 
 private:
 	int data;

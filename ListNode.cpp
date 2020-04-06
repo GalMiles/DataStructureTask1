@@ -34,6 +34,11 @@ void ListNode::setNext(int next)
 void ListNode::printNode()
 {
 	cout << "data: " << this->data << endl;
+}
 
+const ListNode& ListNode::operator=(const ListNode& other)
+{
+	this->data = other.data;
+	this->next = other.next;
 }
 
