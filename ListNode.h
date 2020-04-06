@@ -12,13 +12,14 @@ using namespace std;
 
 class ListNode {
 public:
-	ListNode(PC* data, int next);//c'tor
+	ListNode();
+	ListNode(int data, int next);//c'tor
 	ListNode(const ListNode& other);//copy c'tor
 	~ListNode();//d'tor
-
+	int getData();
 
 private:
-	PC *data;
+	int data;
 	int next;
 };
 
