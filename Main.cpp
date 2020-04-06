@@ -6,7 +6,7 @@ using namespace std;
 
 #define WHITE true
 #define BLACK false
-
+aa
 
 int main()
 {
