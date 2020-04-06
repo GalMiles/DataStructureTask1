@@ -15,7 +15,6 @@ public:
 	ListNode(PC* data, int next);//c'tor
 	ListNode(const ListNode& other);//copy c'tor
 	~ListNode();//d'tor
-	gffgfggd
 
 private:
 	PC *data;
