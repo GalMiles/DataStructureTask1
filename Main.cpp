@@ -1,5 +1,4 @@
 #include "List.h"
-#include "PC.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -28,9 +27,9 @@ vector<List*> getInput(int& numOfServers)
 	int linkedServerNum;
 	vector<List*> lstOfVectorsToReturn;
 	cout << "please enter num of servers" << endl;
-	cin >> numOfServers;
+	cin >> numOfServers;//size
 	cout << "please enter number of linked servers" << endl;
-	cin >> linkedServerNum;
+	cin >> linkedServerNum;//couple amount
 	for (int i = 0; i < numOfServers; i++)
 		newlst = new List(numOfServers);
 		lstOfVectorsToReturn.push_back(newlst);
