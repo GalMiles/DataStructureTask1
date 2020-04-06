@@ -7,7 +7,7 @@ using namespace std;
 #define WHITE true
 #define BLACK false
 
-//ddfdsfdsfdffsd
+/ddd
 int main()
 {
 	List serverToShow;
