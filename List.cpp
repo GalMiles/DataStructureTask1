@@ -9,7 +9,9 @@ pubic:
 	bool isEmpty();
 	void insertNode(ListNode node, int index);
 	void deleteNode(int index);
-	void printList();
+	void printList();///df/dfdfdfdfd
+	
+
 private:
 	ListNode *arr;
 	int headList;
