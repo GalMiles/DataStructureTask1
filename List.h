@@ -7,22 +7,25 @@
 
 class List {
 public:
-	List(int headList = -1, int headFree = 0, int size = 0, bool color = WHITE); // c'tor
+	List(int headList = -1, int headFree = 0, int size = 0, bool color = WHITE, int realSize = 0); // c'tor
 	List(const List& other);//copy c'tor
 	~List();//d'tor
 
 	List makeEmpty();
 	bool isEmpty();
-	void insertNode(ListNode node, int index);
+	void insertNode(ListNode& node, int index);
 	void deleteNode(int index);
 	void printList();
-	ListNode findTail(int& index);
+	int findTailIndex();
 	bool getColor();
 	int getSize();
 	int getHead();
 	ListNode* getArr();
 	void setColor(bool color);
 	void operator=(const List& other);
+	void setHeadList(int newHead);
+	void setHeadFree(int newHeadFree);
+	int getRealSize();
 
 private:
 	ListNode* arr;
@@ -30,6 +33,7 @@ private:
 	int headFree;
 	int size;
 	bool color;
+	int realSize;
 };
 #endif
 

@@ -2,7 +2,7 @@
 
 ListNode::ListNode()
 {
-	this->next = -1;
+
 }
 
 ListNode::ListNode(int data, int next): data(data), next(next)
@@ -12,7 +12,8 @@ ListNode::ListNode(int data, int next): data(data), next(next)
 
 ListNode::ListNode(const ListNode& other)
 {
-
+	this->data = other.data;
+	this->next = other.next;
 }
 
 ListNode::~ListNode()

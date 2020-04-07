@@ -1,8 +1,13 @@
 #include "List.h"
 
-List::List(int headList,int headFree, int size, bool color):headList(-1), headFree(headFree), size(size), color(color)
+List::List(int headList,int headFree, int size, bool color, int realSize):headList(headList), headFree(headFree), size(size), color(color), realSize(realSize)
 {
 	this->arr = new ListNode[size];
+	for (int i = 0; i < size; i++)
+		if (i == size - 1)
+			this->arr[i].setNext(-1);
+		else
+			this->arr[i].setNext(i + 1);
 }
 
 List::List(const List& other)//copy c'tor
@@ -37,8 +42,9 @@ bool List::isEmpty()
 		return false;
 }
 
-void List::insertNode(ListNode node, int index)
+void List::insertNode(ListNode& node, int index)
 {
+	this->realSize++;
 	int locNew;
 	locNew= this->headFree;
 	this->headFree = arr[headFree].getNext();
@@ -49,6 +55,7 @@ void List::insertNode(ListNode node, int index)
 
 void List::deleteNode(int index)
 {
+	this->realSize--;
 	int locFree;
 	locFree = arr[index].getNext();
 	arr[index].setNext(arr[locFree].getNext());
@@ -57,19 +64,20 @@ void List::deleteNode(int index)
 }
 void List::printList()
 {
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < this->realSize; i++)
 	{
 		arr[i].printNode();//using printNode method
 	}
 }
 
-ListNode List::findTail(int& index)
+int List::findTailIndex()
 {
-	ListNode currentNodeInList(0,-1);
+	int index = 0;
+	ListNode currentNodeInList;//temp node for return if empty
 	if (this->isEmpty())
 	{
 		index = 0;
-		return currentNodeInList;
+		return index;
 	}
 	currentNodeInList = arr[this->headList];
 	while (currentNodeInList.getNext() != -1)
@@ -78,7 +86,7 @@ ListNode List::findTail(int& index)
 		currentNodeInList = arr[currentNodeInList.getNext()];
 	}
 
-	return currentNodeInList;
+	return index;
 }
 
 void List::setColor(bool color)
@@ -88,11 +96,28 @@ void List::setColor(bool color)
 
 void List::operator=(const List & other)
 {
-	this->arr = other.arr;
 	this->color = other.color;
 	this->headFree = other.headFree;
 	this->headList = other.headList;
 	this->size = other.size;
+	this->arr = new ListNode[this->size];
+	for (int i = 0; i < this->size; i++)
+		this->arr[i] = other.arr[i];
+}
+
+void List::setHeadList(int newHead)
+{
+	this->headList = newHead;
+}
+
+void List::setHeadFree(int newHeadFree)
+{
+
+}
+
+int List::getRealSize()
+{
+	return this->realSize;
 }
 
 bool List::getColor()
