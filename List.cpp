@@ -1,6 +1,6 @@
 #include "List.h"
 
-List::List(int headList,int headFree, int size, bool color):headList(headList), headFree(headFree), size(size), color(color)
+List::List(int headList,int headFree, int size, bool color):headList(-1), headFree(headFree), size(size), color(color)
 {
 	this->arr = new ListNode[size];
 }
@@ -63,9 +63,36 @@ void List::printList()
 	}
 }
 
+ListNode List::findTail(int& index)
+{
+	ListNode currentNodeInList(0,-1);
+	if (this->isEmpty())
+	{
+		index = 0;
+		return currentNodeInList;
+	}
+	currentNodeInList = arr[this->headList];
+	while (currentNodeInList.getNext() != -1)
+	{
+		index = currentNodeInList.getNext();
+		currentNodeInList = arr[currentNodeInList.getNext()];
+	}
+
+	return currentNodeInList;
+}
+
 void List::setColor(bool color)
 {
 	this->color = color;
+}
+
+void List::operator=(const List & other)
+{
+	this->arr = other.arr;
+	this->color = other.color;
+	this->headFree = other.headFree;
+	this->headList = other.headList;
+	this->size = other.size;
 }
 
 bool List::getColor()

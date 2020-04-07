@@ -2,7 +2,10 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-
+List FindAccessibleHelper(vector<List*> listOfServers, int serverToCheck);
+void FindAccessibleRec(vector<List*> listOfServers, int serverToCheck, List& lstToReturn);
+vector<List*> getInput(int& numOfServers);
+void makeLst(vector<List*>& vectorOfList, int linkedSerever);
 #define WHITE true
 #define BLACK false
 
@@ -14,7 +17,7 @@ int main()
 	cout << "insert server to get linked pc's " << endl;
 	cin >> serverToCheck;
 	serverToShow = FindAccessibleHelper(serverList, serverToCheck);
-	serverToShow.printList();
+	//serverToShow.printList();
 
 
 	return 0;
@@ -42,12 +45,19 @@ void makeLst(vector<List*>& vectorOfList, int linkedSerever)
 {
 	for (int i = 0; i < linkedSerever; i++)
 	{
-		int servNum, pcToConnect;
+		ListNode nodeTOAddAfter;
+		int servNum, pcToConnect,index;
 		cout << "enter server number " << endl;
 		cin >> servNum;
 		cout << "enter pc number to connect " << endl;
 		cin >> pcToConnect;
-		vectorOfList[servNum]->insertNode(pcToConnect);
+		nodeTOAddAfter = vectorOfList[servNum]->findTail(index);
+		if (nodeTOAddAfter.getData() == 0)
+		{
+			nodeTOAddAfter.setNext(-1);
+			nodeTOAddAfter.setData(pcToConnect);
+		}
+		vectorOfList[servNum]->insertNode(nodeTOAddAfter,index);
 	}
 }
 
@@ -65,12 +75,15 @@ void FindAccessibleRec(vector<List*> listOfServers, int serverToCheck,List& lstT
 	List* currList = listOfServers[serverToCheck];
 	currList->setColor(BLACK);
 	int head = currList->getHead();
+	ListNode tail;
+	int index;
 	ListNode currServerToAdd = currList->getArr()[head];
 	for (int i = 0; i < currList->getSize(); i++)
 	{ 
 		int numOfServer = currServerToAdd.getData();
-		lstToReturn.insertNode(currServerToAdd);
-		if (listOfServers[numOfServer]->getColor == WHITE)
+		tail = lstToReturn.findTail(index);
+		lstToReturn.insertNode(tail,index);
+		if (listOfServers[numOfServer]->getColor() == WHITE)
 			FindAccessibleRec(listOfServers, numOfServer, lstToReturn);
 		numOfServer = currList->getArr()->getNext();
 		currServerToAdd = currList->getArr()[numOfServer];

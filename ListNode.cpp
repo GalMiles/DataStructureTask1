@@ -1,5 +1,10 @@
 #include "ListNode.h"
 
+ListNode::ListNode()
+{
+	this->next = -1;
+}
+
 ListNode::ListNode(int data, int next): data(data), next(next)
 {
 
@@ -25,6 +30,11 @@ int ListNode::getNext()
 	return this->next;
 }
 
+void ListNode::setData(int data)
+{
+	this->data = data;
+}
+
 
 void ListNode::setNext(int next)
 {
@@ -36,9 +46,10 @@ void ListNode::printNode()
 	cout << "data: " << this->data << endl;
 }
 
-const ListNode& ListNode::operator=(const ListNode& other)
+void ListNode::operator=(const ListNode& other)
 {
 	this->data = other.data;
 	this->next = other.next;
 }
+
 

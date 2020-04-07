@@ -148,14 +148,11 @@
   <ItemGroup>
     <ClCompile Include="List.cpp" />
     <ClCompile Include="ListNode.cpp" />
-    <ClCompile Include="ListNodecpp.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="PC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h" />
     <ClInclude Include="ListNode.h" />
-    <ClInclude Include="PC.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

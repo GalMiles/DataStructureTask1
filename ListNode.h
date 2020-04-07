@@ -18,9 +18,10 @@ public:
 
 	int getData();
 	int getNext();
+	void setData(int data);
 	void setNext(int next);
 	void printNode();
-	const ListNode& operator=(const ListNode& other);
+	void operator=(const ListNode& other);
 
 private:
 	int data;
