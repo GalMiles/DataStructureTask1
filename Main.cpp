@@ -1,9 +1,9 @@
 #include "List.h"
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
-void FindAccessibleHelper(vector<List> listOfServers, List& serverToShow, int serverToCheck);
 void FindAccessibleRec(vector<List> listOfServers, int serverToCheck, List& lstToReturn);
 vector<List> getInput(int& numOfServers);
 void makeLst(vector<List>& vectorOfList, int linkedSerever);
@@ -14,11 +14,11 @@ int main()
 {
 	int serverToCheck,numOfServers;
 	vector<List> serverList = getInput(numOfServers);
-	List serverToShow(-1, 0, serverList.size(), WHITE);
 	cout << "insert server to get linked pc's " << endl;
 	cin >> serverToCheck;
-	FindAccessibleHelper(serverList,serverToShow,serverToCheck);
-	serverToShow.printList();
+	FindAccessibleRec(serverList, serverToCheck, serverList[serverToCheck - 1]);
+	serverList[serverToCheck - 1].printList();
+
 
 	return 0;
 }
@@ -65,23 +65,27 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever)
 		}
 	}
 }
-
+/*
 void FindAccessibleHelper(vector<List> listOfServers,List& serverToShow,int serverToCheck)
 {
 	FindAccessibleRec(listOfServers, serverToCheck,serverToShow);
 }
 
+*/
 
 void FindAccessibleRec(vector<List> listOfServers, int serverToCheck, List& lstToReturn)
 {
-	int size;
-	List currList = listOfServers[serverToCheck-1];
-	currList.setColor(BLACK);
-	int index;
-	size = currList.getRealSize();
+	int size,index,head;
+	int serverToCheckMinusOne = serverToCheck - 1;
+	listOfServers[serverToCheckMinusOne].setColor(BLACK);
+	head = listOfServers[serverToCheckMinusOne].getHead();
+	size = listOfServers[serverToCheckMinusOne].getRealSize();
+	ListNode currentNodeInList = listOfServers[serverToCheckMinusOne].getArr()[head];
 	for (int i = 0; i < size; i++)
 	{
-		ListNode serverToAdd(currList.getArr()[i].getData(), 1);
+		int dataToAdd = currentNodeInList.getData();
+		ListNode serverToAdd(dataToAdd, 1);
+		/*x
 		if (lstToReturn.isEmpty())
 		{
 			lstToReturn.setHeadList(0);
@@ -90,13 +94,18 @@ void FindAccessibleRec(vector<List> listOfServers, int serverToCheck, List& lstT
 		}
 		else
 		{
+		*/
+		if (lstToReturn.ifExistedAndTail(dataToAdd, index))//check if node already exist if not will return the tail index
+		{
 			index = lstToReturn.findTailIndex();
 			serverToAdd.setNext(-1);
 			lstToReturn.insertNode(serverToAdd, index);
 		}
-		int numOfServer = serverToAdd.getData();
-		if (listOfServers[numOfServer].getColor() == WHITE)
+		//}
+		int numOfServer = dataToAdd;
+		if (listOfServers[numOfServer - 1].getColor() == WHITE)
 			FindAccessibleRec(listOfServers, numOfServer, lstToReturn);
+		currentNodeInList = listOfServers[serverToCheckMinusOne].getArr()[currentNodeInList.getNext()];
 	}
 }
 

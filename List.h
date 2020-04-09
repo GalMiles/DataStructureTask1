@@ -21,6 +21,7 @@ public:
 	bool getColor();
 	int getSize();
 	int getHead();
+	bool ifExistedAndTail(int data,int& index);//check if a node is already insert to the list
 	ListNode* getArr();
 	void setColor(bool color);
 	void operator=(const List& other);

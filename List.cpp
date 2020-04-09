@@ -154,6 +154,28 @@ int List::getHead()
 	return this->headList;
 }
 
+bool List::ifExistedAndTail(int data, int& index)
+{
+	index = 0;
+	ListNode currentNodeInList;//temp node for return if empty
+	if (this->isEmpty())
+	{
+		index = 0;
+		return true;
+	}
+	currentNodeInList = arr[this->headList];
+	while (currentNodeInList.getNext() != -1)
+	{
+		if (currentNodeInList.getData() == data)//already exist return false
+			return false;
+		index = currentNodeInList.getNext();
+		currentNodeInList = arr[currentNodeInList.getNext()];
+	}
+	if (currentNodeInList.getData() == data)//check if the data to add is same as tail and already exist return false
+		return false;
+	return true;
+}
+
 ListNode* List::getArr()
 {
 	return this->arr;
