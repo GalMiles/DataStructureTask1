@@ -1,7 +1,14 @@
 #include "List.h"
 
-List::List(int headList,int headFree, int size, bool color, int realSize):headList(headList), headFree(headFree), size(size), color(color), realSize(realSize)
+
+List::List(int headList,int headFree, int size, bool color, int realSize)
 {
+	this->headList = headList;
+	this->headFree = headFree;
+	this->size = size;
+	this->color = color;
+	this->realSize = realSize;
+
 	this->arr = new ListNode[size];
 	for (int i = 0; i < size; i++)
 		if (i == size - 1)
@@ -22,10 +29,17 @@ List::List(const List& other)//copy c'tor
 	this->color = other.color;
 	this->headFree = other.headFree;
 	this->headList = other.headList;
+	this->realSize = other.realSize;
 }
+
+List::List(List&& other)//move c'tor
+{
+	*this = move(other);
+}
+
 List::~List()//d'tor
 {
-	delete arr;
+	delete[] arr;
 
 }
 
@@ -94,15 +108,16 @@ void List::setColor(bool color)
 	this->color = color;
 }
 
-void List::operator=(const List & other)
+void List::operator=(const List& other)
 {
-	this->color = other.color;
-	this->headFree = other.headFree;
-	this->headList = other.headList;
-	this->size = other.size;
-	this->arr = new ListNode[this->size];
-	for (int i = 0; i < this->size; i++)
-		this->arr[i] = other.arr[i];
+	color = other.color;
+	headFree = other.headFree;
+	headList = other.headList;
+	size = other.size;
+	realSize = other.realSize;
+	arr = new ListNode[size];
+	for (int i = 0; i < size; i++)
+		arr[i] = other.arr[i];
 }
 
 void List::setHeadList(int newHead)
@@ -142,4 +157,9 @@ int List::getHead()
 ListNode* List::getArr()
 {
 	return this->arr;
+}
+
+void List::setRealSize(int realSize)
+{
+	realSize = realSize;
 }

@@ -9,6 +9,7 @@ class List {
 public:
 	List(int headList = -1, int headFree = 0, int size = 0, bool color = WHITE, int realSize = 0); // c'tor
 	List(const List& other);//copy c'tor
+	List(List&& other);//move c'tor
 	~List();//d'tor
 
 	List makeEmpty();
@@ -25,15 +26,18 @@ public:
 	void operator=(const List& other);
 	void setHeadList(int newHead);
 	void setHeadFree(int newHeadFree);
+	void setRealSize(int realSize);
 	int getRealSize();
 
+
+
 private:
-	ListNode* arr;
 	int headList;
 	int headFree;
 	int size;
 	bool color;
 	int realSize;
+	ListNode* arr;
 };
 #endif
 
