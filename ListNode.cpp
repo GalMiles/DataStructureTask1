@@ -44,7 +44,7 @@ void ListNode::setNext(int next)
 
 void ListNode::printNode()
 {
-	cout << "data: " << this->data << endl;
+	cout << this->data << " ";
 }
 
 void ListNode::operator=(const ListNode& other)

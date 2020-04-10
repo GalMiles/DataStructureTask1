@@ -6,7 +6,11 @@ using namespace std;
 
 void FindAccessibleRec(vector<List> listOfServers, int serverToCheck, List& lstToReturn);
 vector<List> getInput(int& numOfServers);
-void makeLst(vector<List>& vectorOfList, int linkedSerever);
+void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer);
+int isPositive(int num);
+int isServerValid(int num, int numOfServer);
+int isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum);
+
 #define WHITE true
 #define BLACK false
 
@@ -17,7 +21,9 @@ int main()
 	cout << "insert server to get linked pc's " << endl;
 	cin >> serverToCheck;
 	FindAccessibleRec(serverList, serverToCheck, serverList[serverToCheck - 1]);
+	cout << "The server's group is:" << serverToCheck<<" ";
 	serverList[serverToCheck - 1].printList();
+	cout << endl;
 
 
 	return 0;
@@ -27,29 +33,40 @@ vector<List> getInput(int& numOfServers)
 {
 	List newlst;
 	int linkedServerNum;
+	int numToCheck;
 	vector<List> lstOfVectorsToReturn;
+
 	cout << "please enter num of servers" << endl;
-	cin >> numOfServers;//size
+	cin >> numToCheck;
+	numOfServers = isPositive(numToCheck);//size
 	cout << "please enter number of linked servers" << endl;
-	cin >> linkedServerNum;//couple amount
+	cin >> numToCheck;
+	linkedServerNum = isPositive(numToCheck);//copule amount
+
 	for (int i = 0; i < numOfServers; i++)
 	{
 		newlst = List(-1, 0, numOfServers, WHITE, 0);
 		lstOfVectorsToReturn.push_back(newlst);
 	}
-	makeLst(lstOfVectorsToReturn, linkedServerNum);
+	makeLst(lstOfVectorsToReturn, linkedServerNum, numOfServers);
 	return lstOfVectorsToReturn;
 }
 
-void makeLst(vector<List>& vectorOfList, int linkedSerever)
+void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer)
 {
 	for (int i = 0; i < linkedSerever; i++)
 	{
-		int servNum, pcToConnect,index;
+		int servNum=0, pcToConnect=0, index;
+		int numToCheck;
+
 		cout << "enter server number " << endl;
-		cin >> servNum;
+		cin >> numToCheck;
+		servNum = isServerValid(numToCheck, numOfServer);
+
 		cout << "enter pc number to connect " << endl;
-		cin >> pcToConnect;
+		cin >> numToCheck;
+		pcToConnect = isPcValid(numToCheck, numOfServer, vectorOfList, servNum);
+
 		index = vectorOfList[servNum-1].findTailIndex();
 		if (vectorOfList[servNum-1].isEmpty())//if list empty insert to head
 		{
@@ -63,7 +80,7 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever)
 			ListNode nodeToAdd(pcToConnect,-1);//node will be added to tail
 			vectorOfList[servNum-1].insertNode(nodeToAdd, index);//insert after
 		}
-	}
+	} 
 }
 /*
 void FindAccessibleHelper(vector<List> listOfServers,List& serverToShow,int serverToCheck)
@@ -109,5 +126,40 @@ void FindAccessibleRec(vector<List> listOfServers, int serverToCheck, List& lstT
 	}
 }
 
+
+int isPositive(int num)
+{
+	while (num <= 0)
+	{
+		cout << "Numer must be positive!" << endl;
+		cout << "Please enter num of servers" << endl;
+		cin >> num;
+	}
+	return num;//when num is positive
+}
+
+int isServerValid(int num, int numOfServer)
+{
+	while (num <= 0 || num > numOfServer)
+	{
+		cout << "This number is not vaild. Please enter another server number" << endl;
+		cin >> num;
+	}//numer is in the right range
+
+	return num;
+}
+
+int isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum)
+{
+	int index = 0;
+	while (num <= 0 || num > numOfServer || !(listOfServers[servNum - 1].ifExistedAndTail(num, index)) || !(listOfServers[num-1].ifExistedAndTail(servNum, index)))
+	{
+		cout << "This number is not vaild. Please enter another pc number" << endl;
+		cin >> num;
+	}//numer is valid
+
+	return num;
+
+}
 
 
