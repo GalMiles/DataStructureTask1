@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="ListNode.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="Stack.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Item.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="Node.h" />

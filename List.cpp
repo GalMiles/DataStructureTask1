@@ -1,12 +1,11 @@
 #include "List.h"
 
 
-List::List(int headList,int headFree, int size, bool color, int realSize)
+List::List(int headList, int headFree, int size, int realSize)
 {
 	this->headList = headList;
 	this->headFree = headFree;
 	this->size = size;
-	this->color = color;
 	this->realSize = realSize;
 
 	this->arr = new ListNode[size];
@@ -26,7 +25,6 @@ List::List(const List& other)//copy c'tor
 		this->arr[i] = other.arr[i];//we need to do opeartor= for listNode
 	}
 
-	this->color = other.color;
 	this->headFree = other.headFree;
 	this->headList = other.headList;
 	this->realSize = other.realSize;
@@ -43,9 +41,9 @@ List::~List()//d'tor
 
 }
 
-List List:: makeEmpty()
+List List::makeEmpty()
 {
-	return(List(-1, 0, 0, WHITE));
+	return(List(-1, 0, 0));
 }
 
 bool List::isEmpty()
@@ -60,7 +58,7 @@ void List::insertNode(ListNode& node, int index)
 {
 	this->realSize++;
 	int locNew;
-	locNew= this->headFree;
+	locNew = this->headFree;
 	this->headFree = arr[headFree].getNext();
 	arr[locNew] = node; //operator= for listNode require
 	arr[locNew].setNext(arr[index].getNext());
@@ -103,14 +101,10 @@ int List::findTailIndex()
 	return index;
 }
 
-void List::setColor(bool color)
-{
-	this->color = color;
-}
+
 
 void List::operator=(const List& other)
 {
-	color = other.color;
 	headFree = other.headFree;
 	headList = other.headList;
 	size = other.size;
@@ -135,14 +129,6 @@ int List::getRealSize()
 	return this->realSize;
 }
 
-bool List::getColor()
-{
-	if (this->color == WHITE)
-	{
-		return true;
-	}
-	return false;
-}
 
 int List::getSize()
 {
@@ -153,6 +139,17 @@ int List::getHead()
 {
 	return this->headList;
 }
+
+ListNode* List::getArr()
+{
+	return this->arr;
+}
+
+void List::setRealSize(int realSize)
+{
+	realSize = realSize;
+}
+
 
 bool List::ifExistedAndTail(int data, int& index)
 {
@@ -174,14 +171,4 @@ bool List::ifExistedAndTail(int data, int& index)
 	if (currentNodeInList.getData() == data)//check if the data to add is same as tail and already exist return false
 		return false;
 	return true;
-}
-
-ListNode* List::getArr()
-{
-	return this->arr;
-}
-
-void List::setRealSize(int realSize)
-{
-	realSize = realSize;
 }

@@ -1,4 +1,4 @@
-/*
+
 #include "Stack.h"
 #include <iostream>
 
@@ -14,7 +14,7 @@ Stack::~Stack()
 }
 void Stack::makeEmpty()
 {
-	Node *temp;
+	Node* temp;
 	while (this->top != nullptr)
 	{
 		temp = this->top;
@@ -23,19 +23,19 @@ void Stack::makeEmpty()
 	}
 }
 
-bool Stack::isEmpty(void)
+bool Stack::isEmpty()
 {
 	return (this->top == nullptr);
 }
-void Stack::push(const ItemType& toAdd)
+void Stack::push(const Item& toAdd)
 {
 	this->top = new Node(toAdd, this->top);
 }
-const ItemType Stack::pop(void)
+const Item Stack::pop()
 {
 	if (isEmpty())
 	{
-		ItemType p = 0;
+		Item p(nullptr,0,0);
 		cout << "Stack Is Empty";
 		return p;////
 	}
@@ -43,11 +43,10 @@ const ItemType Stack::pop(void)
 	else
 	{
 		Node* temp = this->top;
-		ItemType p = this->top->data;
+		Item p = this->top->data;
 		this->top = this->top->next;
 		delete temp;
 		return p;
 	}
 }
 
-*/

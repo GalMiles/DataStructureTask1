@@ -1,16 +1,19 @@
-/*
+
 #include "Node.h"
 
 
-Node::Node(const ItemType& data)
+Node::Node(const Item& item)
 {
 	this->data = data;
 	next = nullptr;
 }
-Node::Node(const ItemType& data, Node*next)
+Node::Node(const Item& data, Node* next)
 {
 	this->data = data;
 	this->next = next;
+}
+Node::~Node()
+{
 }
 void Node::insertAfter(Node* newnode)
 {
@@ -26,4 +29,3 @@ Node*Node::DeleteAfter(void)
 	next = temp->next;
 	return temp;
 }
-*/

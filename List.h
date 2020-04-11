@@ -1,13 +1,12 @@
 #ifndef __List_H
 #define __List_H
 
-#define WHITE true
-#define BLACK false
+
 #include "ListNode.h"
 
 class List {
 public:
-	List(int headList = -1, int headFree = 0, int size = 0, bool color = WHITE, int realSize = 0); // c'tor
+	List(int headList = -1, int headFree = 0, int size = 0, int realSize = 0); // c'tor
 	List(const List& other);//copy c'tor
 	List(List&& other);//move c'tor
 	~List();//d'tor
@@ -18,12 +17,10 @@ public:
 	void deleteNode(int index);
 	void printList();
 	int findTailIndex();
-	bool getColor();
 	int getSize();
 	int getHead();
 	bool ifExistedAndTail(int data,int& index);//check if a node is already insert to the list
 	ListNode* getArr();
-	void setColor(bool color);
 	void operator=(const List& other);
 	void setHeadList(int newHead);
 	void setHeadFree(int newHeadFree);
@@ -36,7 +33,6 @@ private:
 	int headList;
 	int headFree;
 	int size;
-	bool color;
 	int realSize;
 	ListNode* arr;
 };
