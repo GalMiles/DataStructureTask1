@@ -24,7 +24,9 @@ int main()
 	vector<List> serverList = getInput(numOfServers);
 	cout << "insert server to get linked pc's " << endl;
 	cin >> serverToCheck;
-
+	//add two functions one for rec one for itertaive
+	//copy list of server before function 
+	//numOfNodesInList from function and also from class item
 	FindAccessibleVersion1(serverList, serverToCheck, numOfServers);
 	cout << "The server's group is:" << serverToCheck << " ";
 	serverList[serverToCheck - 1].printList();
@@ -136,6 +138,7 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 {
 	Stack s;
 	Item tempItem;
+	ListNode* tempListNode = nullptr;
 	int index,tempNum,nextLoc;
 	int serverToCheckMinusOne = serverToCheck - 1;
 	int returnFromRec = 0;
@@ -143,17 +146,19 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 	int head = listOfServers[serverToCheckMinusOne].getHead();
 	ListNode* currentNodeInList = &(listOfServers[serverToCheckMinusOne].getArr()[head]);//saving the address of the first listNode
 	int numOfNodesInList = listOfServers[serverToCheckMinusOne].getRealSize();//size list
-	Item curr(currentNodeInList,serverToCheckMinusOne,numOfNodesInList);//creating item object
+	Item curr(nullptr, currentNodeInList,serverToCheckMinusOne,numOfNodesInList);//creating item object
 	s.push(curr);//to stack
 
 	while (!s.isEmpty())
 	{
+
 		if (returnFromRec)
 		{
 			curr = s.pop();
-			currentNodeInList = curr.getData();
+			currentNodeInList = curr.getMyAddress();
 			if (currentNodeInList->getNext() != -1)
 			{
+				tempListNode = currentNodeInList;
 				currentNodeInList = &(listOfServers[curr.getServerNum()].getArr()[currentNodeInList->getNext()]);
 				returnFromRec = 0;
 			}
@@ -167,23 +172,37 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 		{
 			index = lstToReturn.findTailIndex();
 			serverToAdd.setNext(-1);
-			lstToReturn.insertNode(serverToAdd, index);
+			lstToReturn.insertNode(serverToAdd, index);	
 		}
+		tempNum = curr.getNodesInList() - 1;
+		curr.setNodesInList(tempNum);
 		nextLoc = dataToAdd - 1;
-		if (curr.getNodesInList() == 0 || listOfServers[nextLoc].getRealSize() == 0)//if list is empty || item.size==0
+
+		if (currentNodeInList->getNext() == -1) //if list is empty || item.size==0//check if list of current server is empty after this node if yes added and mark as black
+		{
+			colorsArr[curr.getServerNum()] = BLACK;
+			returnFromRec = 1;
+		}
+		if (listOfServers[nextLoc].getRealSize() == 0)
 		{
 			colorsArr[nextLoc] = BLACK;
 			returnFromRec = 1;
 		}
-
-		tempNum = curr.getNodesInList() - 1;
-		curr.setNodesInList(tempNum);
+		if (colorsArr[curr.getServerNum()] == WHITE && colorsArr[nextLoc] == BLACK)
+		{
+			numOfNodesInList = listOfServers[curr.getServerNum()].getRealSize();
+			Item tempItem(tempListNode, currentNodeInList, curr.getServerNum(), numOfNodesInList);
+			curr = tempItem;
+			s.push(curr);
+			returnFromRec = 1;
+		}
 		if(colorsArr[nextLoc] == WHITE)
 		{
 			numOfNodesInList = listOfServers[nextLoc].getRealSize();
 			head = listOfServers[nextLoc].getHead();
+			tempListNode = currentNodeInList;
 			currentNodeInList = &listOfServers[nextLoc].getArr()[head];
-			Item tempItem(currentNodeInList, nextLoc, numOfNodesInList);
+			Item tempItem(tempListNode,currentNodeInList, nextLoc, numOfNodesInList);
 			curr = tempItem;
  			s.push(curr);
 			returnFromRec = 0;
@@ -195,8 +214,6 @@ void makeColors(bool* colorsArr, int size)
 	for (int i = 0; i < size; i++)
 		colorsArr[i] = WHITE;
 }
-
-
 
 int isPositive(int num)
 {

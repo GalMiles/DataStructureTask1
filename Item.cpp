@@ -4,7 +4,7 @@ Item::Item()
 {
 }
 
-Item::Item(ListNode* data, int serverNumber,int nodesInList): data(data), serverNumber(serverNumber), nodesInList(nodesInList)
+Item::Item(ListNode* data,ListNode* myAddress, int serverNumber, int nodesInList) : data(data), serverNumber(serverNumber), nodesInList(nodesInList), myAddress(myAddress)
 {
 
 }
@@ -44,7 +44,14 @@ void Item::setNodesInList(int num)
 void Item::operator=(const Item& other)
 {
 	this->data = new ListNode;
+	this->myAddress = new ListNode;
+	this->myAddress = other.myAddress;
 	this->data = other.data;
 	this->serverNumber = other.serverNumber;
 	this->nodesInList = other.nodesInList;
+}
+
+ListNode * Item::getMyAddress()
+{
+	return this->myAddress;
 }
