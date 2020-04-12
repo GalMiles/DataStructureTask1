@@ -35,7 +35,7 @@ const Item Stack::pop()
 {
 	if (isEmpty())
 	{
-		Item p(nullptr,nullptr,0,0);
+		Item p(nullptr,nullptr,0);
 		cout << "Stack Is Empty";
 		return p;////
 	}

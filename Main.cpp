@@ -5,7 +5,8 @@
 
 
 using namespace std;
-void FindAccessibleVersion1(vector<List>& listOfServers, int serverToCheck, int size);
+void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int size);
+void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, int size);
 void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& lstToReturn, bool* colorsArr);
 void FindAccessibleRec(vector<List>& listOfServers, int serverToCheck, List& lstToReturn, bool* colorsArr);
 vector<List> getInput(int& numOfServers);
@@ -22,16 +23,19 @@ int main()
 {
 	int serverToCheck, numOfServers;
 	vector<List> serverList = getInput(numOfServers);
+	vector<List> serverListCopy = serverList;
 	cout << "insert server to get linked pc's " << endl;
 	cin >> serverToCheck;
-	//add two functions one for rec one for itertaive
-	//copy list of server before function 
-	//numOfNodesInList from function and also from class item
-	FindAccessibleVersion1(serverList, serverToCheck, numOfServers);
+
+	FindAccessibleRecHelper(serverListCopy, serverToCheck, numOfServers);
+	cout << "The server's group is:" << serverToCheck << " ";
+	serverListCopy[serverToCheck - 1].printList();
+	cout << endl;
+
+	FindAccessibleStackHelper(serverList, serverToCheck, numOfServers);
 	cout << "The server's group is:" << serverToCheck << " ";
 	serverList[serverToCheck - 1].printList();
 	cout << endl;
-
 
 	return 0;
 }
@@ -89,8 +93,7 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer)
 		}
 	}
 }
-
-void FindAccessibleVersion1(vector<List>& listOfServers, int serverToCheck, int size)
+void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int size)
 {
 	int head = listOfServers[serverToCheck - 1].getHead();
 	int headData = listOfServers[serverToCheck - 1].getArr()[head].getData();
@@ -101,7 +104,21 @@ void FindAccessibleVersion1(vector<List>& listOfServers, int serverToCheck, int 
 	lstToReturn.setHeadList(0);
 	lstToReturn.insertNode(currentNodeInList, 0);
 	lstToReturn.getArr()[0].setNext(-1);
-	//FindAccessibleRec(listOfServers, serverToCheck, lstToReturn, colorsArr);
+	FindAccessibleRec(listOfServers, serverToCheck, lstToReturn, colorsArr);
+	listOfServers[serverToCheck - 1] = lstToReturn;
+}
+
+void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, int size)
+{
+	int head = listOfServers[serverToCheck - 1].getHead();
+	int headData = listOfServers[serverToCheck - 1].getArr()[head].getData();
+	bool* colorsArr = new bool[size];
+	makeColors(colorsArr, size);
+	List lstToReturn(-1, 0, size, 0);
+	ListNode currentNodeInList(headData, 1);
+	lstToReturn.setHeadList(0);
+	lstToReturn.insertNode(currentNodeInList, 0);
+	lstToReturn.getArr()[0].setNext(-1);
 	FindAccessibleStack(listOfServers, serverToCheck, lstToReturn, colorsArr);
 	listOfServers[serverToCheck - 1] = lstToReturn;
 }
@@ -145,8 +162,7 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 	int size = listOfServers[serverToCheckMinusOne].getRealSize();
 	int head = listOfServers[serverToCheckMinusOne].getHead();
 	ListNode* currentNodeInList = &(listOfServers[serverToCheckMinusOne].getArr()[head]);//saving the address of the first listNode
-	int numOfNodesInList = listOfServers[serverToCheckMinusOne].getRealSize();//size list
-	Item curr(nullptr, currentNodeInList,serverToCheckMinusOne,numOfNodesInList);//creating item object
+	Item curr(nullptr, currentNodeInList,serverToCheckMinusOne);//creating item object
 	s.push(curr);//to stack
 
 	while (!s.isEmpty())
@@ -174,11 +190,9 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 			serverToAdd.setNext(-1);
 			lstToReturn.insertNode(serverToAdd, index);	
 		}
-		tempNum = curr.getNodesInList() - 1;
-		curr.setNodesInList(tempNum);
 		nextLoc = dataToAdd - 1;
 
-		if (currentNodeInList->getNext() == -1) //if list is empty || item.size==0//check if list of current server is empty after this node if yes added and mark as black
+		if (currentNodeInList->getNext() == -1) //check if list of current server is empty after this node if yes added and mark as black
 		{
 			colorsArr[curr.getServerNum()] = BLACK;
 			returnFromRec = 1;
@@ -190,19 +204,17 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 		}
 		if (colorsArr[curr.getServerNum()] == WHITE && colorsArr[nextLoc] == BLACK)
 		{
-			numOfNodesInList = listOfServers[curr.getServerNum()].getRealSize();
-			Item tempItem(tempListNode, currentNodeInList, curr.getServerNum(), numOfNodesInList);
+			Item tempItem(tempListNode, currentNodeInList, curr.getServerNum());
 			curr = tempItem;
 			s.push(curr);
 			returnFromRec = 1;
 		}
 		if(colorsArr[nextLoc] == WHITE)
 		{
-			numOfNodesInList = listOfServers[nextLoc].getRealSize();
 			head = listOfServers[nextLoc].getHead();
 			tempListNode = currentNodeInList;
 			currentNodeInList = &listOfServers[nextLoc].getArr()[head];
-			Item tempItem(tempListNode,currentNodeInList, nextLoc, numOfNodesInList);
+			Item tempItem(tempListNode,currentNodeInList, nextLoc);
 			curr = tempItem;
  			s.push(curr);
 			returnFromRec = 0;

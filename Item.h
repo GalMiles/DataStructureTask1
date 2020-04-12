@@ -7,16 +7,14 @@ private:
 	ListNode* data;
 	ListNode* myAddress;
 	int serverNumber;
-	int nodesInList;
+
 public:
 	Item();
-	Item(ListNode* data,ListNode* myAddress,int serverNumber,int nodesInList);
+	Item(ListNode* data,ListNode* myAddress,int serverNumber);
 	~Item();
 	void setData(ListNode* data);
 	ListNode* getData();
 	int getServerNum();
-	int getNodesInList();
-	void setNodesInList(int num);
 	void operator=(const Item& other);
 	ListNode* getMyAddress();
 };
