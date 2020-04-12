@@ -141,10 +141,11 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 	int returnFromRec = 0;
 	int size = listOfServers[serverToCheckMinusOne].getRealSize();
 	int head = listOfServers[serverToCheckMinusOne].getHead();
-	ListNode* currentNodeInList = &(listOfServers[serverToCheckMinusOne].getArr()[head]);
-	int numOfNodesInList = listOfServers[serverToCheckMinusOne].getRealSize();
-	Item curr(currentNodeInList,serverToCheckMinusOne,numOfNodesInList);
-	s.push(curr);
+	ListNode* currentNodeInList = &(listOfServers[serverToCheckMinusOne].getArr()[head]);//saving the address of the first listNode
+	int numOfNodesInList = listOfServers[serverToCheckMinusOne].getRealSize();//size list
+	Item curr(currentNodeInList,serverToCheckMinusOne,numOfNodesInList);//creating item object
+	s.push(curr);//to stack
+
 	while (!s.isEmpty())
 	{
 		if (returnFromRec)
@@ -159,6 +160,7 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 			else
 				returnFromRec = 1;
 		}
+
 		int dataToAdd = currentNodeInList->getData();
 		ListNode serverToAdd(dataToAdd, 1);
 		if (lstToReturn.ifExistedAndTail(dataToAdd, index))//check if node already exist if not will return the tail index
@@ -168,11 +170,12 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 			lstToReturn.insertNode(serverToAdd, index);
 		}
 		nextLoc = dataToAdd - 1;
-		if (curr.getNodesInList() == 0 || listOfServers[nextLoc].getRealSize() == 0)
+		if (curr.getNodesInList() == 0 || listOfServers[nextLoc].getRealSize() == 0)//if list is empty || item.size==0
 		{
 			colorsArr[nextLoc] = BLACK;
 			returnFromRec = 1;
 		}
+
 		tempNum = curr.getNodesInList() - 1;
 		curr.setNodesInList(tempNum);
 		if(colorsArr[nextLoc] == WHITE)
