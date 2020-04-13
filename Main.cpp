@@ -13,8 +13,8 @@ vector<List> getInput(int& numOfServers);
 void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer);
 void makeColors(bool* colorsArr, int size);
 int isPositive(int num);
-int isServerValid(int num, int numOfServer);
-int isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum);
+bool isServerValid(int num, int numOfServer);
+bool isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum);
 
 #define WHITE true
 #define BLACK false
@@ -74,11 +74,28 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer)
 
 		cout << "enter server number " << endl;
 		cin >> numToCheck;
-		servNum = isServerValid(numToCheck, numOfServer);
+
+		if(isServerValid(numToCheck, numOfServer))
+			servNum = numToCheck;
+		else
+		{
+			cout << "no such computer " << numToCheck << endl;
+			exit(-1);
+		}
+
 
 		cout << "enter pc number to connect " << endl;
 		cin >> numToCheck;
-		pcToConnect = isPcValid(numToCheck, numOfServer, vectorOfList, servNum);
+
+		if(isPcValid(numToCheck, numOfServer, vectorOfList, servNum))
+			pcToConnect = numToCheck;
+
+		else
+		{
+			cout << "no such computer " << numToCheck << endl;
+			exit(-1);
+		}
+
 
 		index = vectorOfList[servNum - 1].findTailIndex();
 		if (vectorOfList[servNum - 1].isEmpty())//if list empty insert to head
@@ -243,28 +260,25 @@ int isPositive(int num)
 	return num;//when num is positive
 }
 
-int isServerValid(int num, int numOfServer)
+bool isServerValid(int num, int numOfServer)
 {
-	while (num <= 0 || num > numOfServer)
+	if (num <= 0 || num > numOfServer)
 	{
-		cout << "This number is not vaild. Please enter another server number" << endl;
-		cin >> num;
-	}//numer is in the right range
+		return false;
+	}
 
-	return num;
+	return true;
 }
 
-int isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum)
+bool isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum)
 {
 	int index = 0;
-	while (num <= 0 || num > numOfServer || !(listOfServers[servNum - 1].ifExistedAndTail(num, index)) || !(listOfServers[num - 1].ifExistedAndTail(servNum, index)))
+	
+	if(num <= 0 || num > numOfServer || !(listOfServers[servNum - 1].ifExistedAndTail(num, index)) || !(listOfServers[num - 1].ifExistedAndTail(servNum, index)))
 	{
-		cout << "This number is not vaild. Please enter another pc number" << endl;
-		cin >> num;
-	}//numer is valid
-
-	return num;
-
+		return false;
+	}
+	return true;
 }
 
 
