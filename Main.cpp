@@ -21,11 +21,20 @@ bool isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum
 
 int main()
 {
-	int serverToCheck, numOfServers;
+	int serverToCheck, numOfServers, numToCheck;
 	vector<List> serverList = getInput(numOfServers);//get input from user, making the server list and connection between each server
 	List copy(-1, 0, numOfServers, 0);//copy the wanted list before changing in recursive function
+	
 	cout << "insert server to get linked pc's " << endl;
-	cin >> serverToCheck;
+	cin >> numToCheck;
+	if (isServerValid(numToCheck, numOfServers))
+		serverToCheck = numToCheck;
+	else
+	{
+		cout << "no such computer " << numToCheck << endl;
+		exit(-1);
+	}
+
 	copy = serverList[serverToCheck - 1];//copy the list before the change
 
 	FindAccessibleRecHelper(serverList, serverToCheck, numOfServers);
@@ -274,7 +283,7 @@ bool isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum
 {
 	int index = 0;
 	
-	if(num <= 0 || num > numOfServer || !(listOfServers[servNum - 1].ifExistedAndTail(num, index)) || !(listOfServers[num - 1].ifExistedAndTail(servNum, index)))
+	if(num <= 0 || num > numOfServer || !(listOfServers[servNum - 1].ifExistedAndTail(num, index)))
 	{
 		return false;
 	}
