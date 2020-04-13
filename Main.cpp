@@ -22,16 +22,18 @@ int isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum)
 int main()
 {
 	int serverToCheck, numOfServers;
-	vector<List> serverList = getInput(numOfServers);
-	vector<List> serverListCopy = serverList;
+	vector<List> serverList = getInput(numOfServers);//get input from user, making the server list and connection between each server
+	List copy(-1, 0, numOfServers, 0);//copy the wanted list before changing in recursive function
 	cout << "insert server to get linked pc's " << endl;
 	cin >> serverToCheck;
+	copy = serverList[serverToCheck - 1];//copy the list before the change
 
-	FindAccessibleRecHelper(serverListCopy, serverToCheck, numOfServers);
+	FindAccessibleRecHelper(serverList, serverToCheck, numOfServers);
 	cout << "The server's group is:" << serverToCheck << " ";
-	serverListCopy[serverToCheck - 1].printList();
+	serverList[serverToCheck - 1].printList();
 	cout << endl;
 
+	serverList[serverToCheck - 1] = copy;//return the original input list before change for the second function
 	FindAccessibleStackHelper(serverList, serverToCheck, numOfServers);
 	cout << "The server's group is:" << serverToCheck << " ";
 	serverList[serverToCheck - 1].printList();
@@ -93,7 +95,7 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer)
 		}
 	}
 }
-void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int size)
+void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int size)//make the list to return,colors arr,and put the first node of the list to return and calling findAc rec version
 {
 	int head = listOfServers[serverToCheck - 1].getHead();
 	int headData = listOfServers[serverToCheck - 1].getArr()[head].getData();
@@ -108,7 +110,7 @@ void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int
 	listOfServers[serverToCheck - 1] = lstToReturn;
 }
 
-void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, int size)
+void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, int size)//make the list to return,colors arr,and put the first node of the list to return and calling findAc stack version
 {
 	int head = listOfServers[serverToCheck - 1].getHead();
 	int headData = listOfServers[serverToCheck - 1].getArr()[head].getData();
@@ -153,6 +155,7 @@ void FindAccessibleRec(vector<List>& listOfServers, int serverToCheck, List& lst
 
 void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& lstToReturn, bool* colorsArr)
 {
+	//10 6 1 2 2 3 2 8 1 5 5 7 1 6
 	Stack s;
 	Item tempItem;
 	ListNode* tempListNode = nullptr;
@@ -168,12 +171,14 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 	while (!s.isEmpty())
 	{
 
-		if (returnFromRec)
+		if (returnFromRec)//indicates we need to come back from rec
 		{
 			curr = s.pop();
 			currentNodeInList = curr.getMyAddress();
 			if (currentNodeInList->getNext() != -1)
 			{
+				if (s.isEmpty() && colorsArr[curr.getServerNum()] == WHITE)//if not finish all the nodes in a list and stack is empty put again the last curr for keep moving on the list
+					s.push(curr);
 				tempListNode = currentNodeInList;
 				currentNodeInList = &(listOfServers[curr.getServerNum()].getArr()[currentNodeInList->getNext()]);
 				returnFromRec = 0;
