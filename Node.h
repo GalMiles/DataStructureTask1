@@ -7,9 +7,10 @@ class Node{
 
 public:
 	Node(const Item& item);
-	Node(const Item&data, Node*ptr = nullptr);
+	Node(const Item&data, Node* ptr=nullptr);
+	Node(const Node& other);
 	~Node();
-	void insertAfter(Node*newnode);
+	void insertAfter(Node* newnode);
 	Node*DeleteAfter(void);
 	friend class Stack;
 

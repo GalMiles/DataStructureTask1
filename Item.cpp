@@ -6,14 +6,21 @@ Item::Item()
 
 Item::Item(ListNode* data,ListNode* myAddress, int serverNumber)
 {
-	this->data = data;
-	this->myAddress = myAddress;
+	setData(data);
+	setMyAddress(myAddress);
 	this->serverNumber = serverNumber;
+}
+Item::Item(const Item& other)
+{
+	this->data = new ListNode;
+	this->data = other.data;
+	this->myAddress = new ListNode;
+	this->myAddress = other.myAddress;
+	this->serverNumber = other.serverNumber;
 }
 
 Item::~Item()
 {
-
 }
 
 void Item::setData(ListNode* data)
@@ -21,6 +28,10 @@ void Item::setData(ListNode* data)
 	this->data = data;
 }
 
+void Item::setMyAddress(ListNode* myAddress)
+{
+	this->myAddress = myAddress;
+}
 
 
 ListNode* Item::getData()

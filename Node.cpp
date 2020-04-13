@@ -12,6 +12,12 @@ Node::Node(const Item& data, Node* next)
 	this->data = data;
 	this->next = next;
 }
+Node::Node(const Node& other)
+{
+	this->data = other.data;
+	this->next = new Node(*other.next);
+}
+
 Node::~Node()
 {
 	
@@ -23,7 +29,7 @@ void Node::insertAfter(Node* newnode)
 }
 Node*Node::DeleteAfter(void)
 {
-	Node*temp = next;
+	Node* temp = next;
 	if (this->next == nullptr)
 		return nullptr;
 

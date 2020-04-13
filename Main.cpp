@@ -185,7 +185,7 @@ void FindAccessibleRec(vector<List>& listOfServers, int serverToCheck, List& lst
 
 void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& lstToReturn, bool* colorsArr)
 {
-	//10 6 1 2 2 3 2 8 1 5 5 7 1 6
+	//5 5 1 4 2 4 3 2 3 5 4 5 1
 	Stack s;
 	Item tempItem;
 	ListNode* tempListNode = nullptr;

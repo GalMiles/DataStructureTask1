@@ -7,8 +7,10 @@ class Item
 public:
 	Item();
 	Item(ListNode* data, ListNode* myAddress, int serverNumber);
+	Item(const Item& other);
 	~Item();
 	void setData(ListNode* data);
+	void setMyAddress(ListNode* myAddress);
 	ListNode* getData();
 	int getServerNum();
 	void operator=(const Item& other);
