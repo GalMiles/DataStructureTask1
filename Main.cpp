@@ -3,7 +3,6 @@
 #include <vector>
 #include "Stack.h"
 
-
 using namespace std;
 void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int size);
 void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, int size);
@@ -24,8 +23,8 @@ int main()
 	int serverToCheck, numOfServers, numToCheck;
 	vector<List> serverList = getInput(numOfServers);//get input from user, making the server list and connection between each server
 	List copy(-1, 0, numOfServers, 0);//copy the wanted list before changing in recursive function
-	
-	cout << "insert server to get linked pc's " << endl;
+
+									  //cout << "insert server to get linked pc's " << endl;
 	cin >> numToCheck;
 	if (isServerValid(numToCheck, numOfServers))
 		serverToCheck = numToCheck;
@@ -38,13 +37,15 @@ int main()
 	copy = serverList[serverToCheck - 1];//copy the list before the change
 
 	FindAccessibleRecHelper(serverList, serverToCheck, numOfServers);
-	cout << "The server's group is:" << serverToCheck << " ";
+	//cout << "The server's group is:";
+	cout << serverToCheck << " ";
 	serverList[serverToCheck - 1].printList();
 	cout << endl;
 
 	serverList[serverToCheck - 1] = copy;//return the original input list before change for the second function
 	FindAccessibleStackHelper(serverList, serverToCheck, numOfServers);
-	cout << "The server's group is:" << serverToCheck << " ";
+	//cout << "The server's group is:" ;
+	cout << serverToCheck << " ";
 	serverList[serverToCheck - 1].printList();
 	cout << endl;
 
@@ -58,10 +59,10 @@ vector<List> getInput(int& numOfServers)
 	int numToCheck;
 	vector<List> lstOfVectorsToReturn;
 
-	cout << "please enter num of servers" << endl;
+	//cout << "please enter num of servers" << endl;
 	cin >> numToCheck;
 	numOfServers = isPositive(numToCheck);//size
-	cout << "please enter number of linked servers" << endl;
+										  //cout << "please enter number of linked servers" << endl;
 	cin >> numToCheck;
 	linkedServerNum = isPositive(numToCheck);//copule amount
 
@@ -81,10 +82,10 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer)
 		int servNum = 0, pcToConnect = 0, index;
 		int numToCheck;
 
-		cout << "enter server number " << endl;
+		//cout << "enter server number " << endl;
 		cin >> numToCheck;
 
-		if(isServerValid(numToCheck, numOfServer))
+		if (isServerValid(numToCheck, numOfServer))
 			servNum = numToCheck;
 		else
 		{
@@ -93,10 +94,10 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer)
 		}
 
 
-		cout << "enter pc number to connect " << endl;
+		//cout << "enter pc number to connect " << endl;
 		cin >> numToCheck;
 
-		if(isPcValid(numToCheck, numOfServer, vectorOfList, servNum))
+		if (isPcValid(numToCheck, numOfServer, vectorOfList, servNum))
 			pcToConnect = numToCheck;
 
 		else
@@ -134,6 +135,7 @@ void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int
 	lstToReturn.getArr()[0].setNext(-1);
 	FindAccessibleRec(listOfServers, serverToCheck, lstToReturn, colorsArr);
 	listOfServers[serverToCheck - 1] = lstToReturn;
+	delete[] colorsArr;
 }
 
 void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, int size)//make the list to return,colors arr,and put the first node of the list to return and calling findAc stack version
@@ -149,6 +151,8 @@ void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, i
 	lstToReturn.getArr()[0].setNext(-1);
 	FindAccessibleStack(listOfServers, serverToCheck, lstToReturn, colorsArr);
 	listOfServers[serverToCheck - 1] = lstToReturn;
+
+	delete[] colorsArr;
 }
 
 
@@ -185,13 +189,13 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 	Stack s;
 	Item tempItem;
 	ListNode* tempListNode = nullptr;
-	int index,tempNum,nextLoc;
+	int index, tempNum, nextLoc;
 	int serverToCheckMinusOne = serverToCheck - 1;
 	int returnFromRec = 0;
 	int size = listOfServers[serverToCheckMinusOne].getRealSize();
 	int head = listOfServers[serverToCheckMinusOne].getHead();
 	ListNode* currentNodeInList = &(listOfServers[serverToCheckMinusOne].getArr()[head]);//saving the address of the first listNode
-	Item curr(nullptr, currentNodeInList,serverToCheckMinusOne);//creating item object
+	Item curr(nullptr, currentNodeInList, serverToCheckMinusOne);//creating item object
 	s.push(curr);//to stack
 
 	while (!s.isEmpty())
@@ -219,7 +223,7 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 		{
 			index = lstToReturn.findTailIndex();
 			serverToAdd.setNext(-1);
-			lstToReturn.insertNode(serverToAdd, index);	
+			lstToReturn.insertNode(serverToAdd, index);
 		}
 		nextLoc = dataToAdd - 1;
 
@@ -240,14 +244,14 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 			s.push(curr);
 			returnFromRec = 1;
 		}
-		if(colorsArr[nextLoc] == WHITE)
+		if (colorsArr[nextLoc] == WHITE)
 		{
 			head = listOfServers[nextLoc].getHead();
 			tempListNode = currentNodeInList;
 			currentNodeInList = &listOfServers[nextLoc].getArr()[head];
-			Item tempItem(tempListNode,currentNodeInList, nextLoc);
+			Item tempItem(tempListNode, currentNodeInList, nextLoc);
 			curr = tempItem;
- 			s.push(curr);
+			s.push(curr);
 			returnFromRec = 0;
 		}
 	}
@@ -282,8 +286,8 @@ bool isServerValid(int num, int numOfServer)
 bool isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum)
 {
 	int index = 0;
-	
-	if(num <= 0 || num > numOfServer || !(listOfServers[servNum - 1].ifExistedAndTail(num, index)))
+
+	if (num <= 0 || num > numOfServer || !(listOfServers[servNum - 1].ifExistedAndTail(num, index)))
 	{
 		return false;
 	}
