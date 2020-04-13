@@ -11,6 +11,7 @@ Stack::Stack()
 Stack::~Stack()
 {
 	makeEmpty();
+	delete this->top;
 }
 void Stack::makeEmpty()
 {

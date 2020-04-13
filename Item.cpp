@@ -11,6 +11,9 @@ Item::Item(ListNode* data,ListNode* myAddress, int serverNumber) : data(data), m
 
 Item::~Item()
 {
+	delete this->data;
+	delete this->myAddress;
+
 }
 
 void Item::setData(ListNode* data)

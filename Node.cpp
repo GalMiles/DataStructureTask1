@@ -14,6 +14,7 @@ Node::Node(const Item& data, Node* next)
 }
 Node::~Node()
 {
+	delete this->next;
 }
 void Node::insertAfter(Node* newnode)
 {

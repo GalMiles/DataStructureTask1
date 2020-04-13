@@ -4,9 +4,7 @@
 #include "Item.h"
 
 class Node{
-private:
-	Item data;
-	Node* next;
+
 public:
 	Node(const Item& item);
 	Node(const Item&data, Node*ptr = nullptr);
@@ -14,6 +12,10 @@ public:
 	void insertAfter(Node*newnode);
 	Node*DeleteAfter(void);
 	friend class Stack;
+
+private:
+	Item data;
+	Node* next;
 
 };
 #endif // !_L_N
