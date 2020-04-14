@@ -4,18 +4,14 @@ Item::Item()
 {
 }
 
-Item::Item(ListNode* data,ListNode* myAddress, int serverNumber)
+Item::Item(ListNode* data, ListNode* myAddress, int serverNumber) : data(data), myAddress(myAddress),serverNumber(serverNumber)
 {
-	setData(data);
-	setMyAddress(myAddress);
-	this->serverNumber = serverNumber;
+
 }
 Item::Item(const Item& other)
 {
-	this->data = new ListNode;
-	this->data = other.data;
-	this->myAddress = new ListNode;
-	this->myAddress = other.myAddress;
+	setData(other.data);
+	setMyAddress(other.myAddress);
 	this->serverNumber = other.serverNumber;
 }
 
