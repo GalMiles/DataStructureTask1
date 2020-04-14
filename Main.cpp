@@ -3,6 +3,9 @@
 #include <vector>
 #include "Stack.h"
 
+#include <stdlib.h>
+#include <crtdbg.h>
+
 
 using namespace std;
 void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int size);
@@ -19,7 +22,7 @@ bool isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum
 #define WHITE true
 #define BLACK false
 
-void main()
+int main()
 {
 
 	int serverToCheck, numOfServers, numToCheck;
@@ -51,6 +54,8 @@ void main()
 	serverList[serverToCheck - 1].printList();
 	cout << endl;
 
+	cout << _CrtDumpMemoryLeaks();
+	return 0;
 }
 
 vector<List> getInput(int& numOfServers)
