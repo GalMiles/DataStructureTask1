@@ -3,6 +3,7 @@
 #include <vector>
 #include "Stack.h"
 
+
 using namespace std;
 void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int size);
 void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, int size);
@@ -11,15 +12,16 @@ void FindAccessibleRec(vector<List>& listOfServers, int serverToCheck, List& lst
 vector<List> getInput(int& numOfServers);
 void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer);
 void makeColors(bool* colorsArr, int size);
-int isPositive(int num);
+bool isPositive(int num);
 bool isServerValid(int num, int numOfServer);
 bool isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum);
 
 #define WHITE true
 #define BLACK false
 
-int main()
+void main()
 {
+
 	int serverToCheck, numOfServers, numToCheck;
 	vector<List> serverList = getInput(numOfServers);//get input from user, making the server list and connection between each server
 	List copy(-1, 0, numOfServers, 0);//copy the wanted list before changing in recursive function
@@ -49,7 +51,6 @@ int main()
 	serverList[serverToCheck - 1].printList();
 	cout << endl;
 
-	return 0;
 }
 
 vector<List> getInput(int& numOfServers)
@@ -61,10 +62,24 @@ vector<List> getInput(int& numOfServers)
 
 	//cout << "please enter num of servers" << endl;
 	cin >> numToCheck;
-	numOfServers = isPositive(numToCheck);//size
-										  //cout << "please enter number of linked servers" << endl;
+	if (isPositive(numToCheck))//size
+		numOfServers = numToCheck;
+	else
+	{
+		cout << "no such computer " << numToCheck << endl;
+		exit(-1);
+	}
+	
+	//cout << "please enter number of linked servers" << endl;
 	cin >> numToCheck;
-	linkedServerNum = isPositive(numToCheck);//copule amount
+
+	if (isPositive(numToCheck))//size
+		linkedServerNum = numToCheck;
+	else
+	{
+		cout << "no such computer " << numToCheck << endl;
+		exit(-1);
+	}
 
 	for (int i = 0; i < numOfServers; i++)
 	{
@@ -262,15 +277,13 @@ void makeColors(bool* colorsArr, int size)
 		colorsArr[i] = WHITE;
 }
 
-int isPositive(int num)
+bool isPositive(int num)
 {
-	while (num <= 0)
+	if (num <= 0)
 	{
-		cout << "Numer must be positive!" << endl;
-		cout << "Please enter num of servers" << endl;
-		cin >> num;
+		return false;
 	}
-	return num;//when num is positive
+	return true;
 }
 
 bool isServerValid(int num, int numOfServer)
