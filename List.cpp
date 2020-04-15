@@ -107,8 +107,6 @@ void List::operator=(const List& other)
 	headList = other.headList;
 	size = other.size;
 	realSize = other.realSize;
-	delete[] this->arr;
-
 	this->arr = new ListNode[size];
 	for (int i = 0; i < size; i++)
 	{
