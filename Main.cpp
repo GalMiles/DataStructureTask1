@@ -3,10 +3,6 @@
 #include <vector>
 #include "Stack.h"
 
-#include <stdlib.h>
-#include <crtdbg.h>
-
-
 using namespace std;
 void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int size);
 void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, int size);
@@ -42,19 +38,16 @@ int main()
 	copy = serverList[serverToCheck - 1];//copy the list before the change
 
 	FindAccessibleRecHelper(serverList, serverToCheck, numOfServers);
-	//cout << "The server's group is:";
 	cout << serverToCheck << " ";
 	serverList[serverToCheck - 1].printList();
 	cout << endl;
 
 	serverList[serverToCheck - 1] = copy;//return the original input list before change for the second function
 	FindAccessibleStackHelper(serverList, serverToCheck, numOfServers);
-	//cout << "The server's group is:" ;
 	cout << serverToCheck << " ";
 	serverList[serverToCheck - 1].printList();
 	cout << endl;
 
-	cout << _CrtDumpMemoryLeaks();
 	return 0;
 }
 
@@ -65,7 +58,6 @@ vector<List> getInput(int& numOfServers)
 	int numToCheck;
 	vector<List> lstOfVectorsToReturn;
 
-	//cout << "please enter num of servers" << endl;
 	cin >> numToCheck;
 	if (isPositive(numToCheck))//size
 		numOfServers = numToCheck;
@@ -75,7 +67,6 @@ vector<List> getInput(int& numOfServers)
 		exit(-1);
 	}
 	
-	//cout << "please enter number of linked servers" << endl;
 	cin >> numToCheck;
 
 	if (isPositive(numToCheck))//size
@@ -102,7 +93,6 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer)
 		int servNum = 0, pcToConnect = 0, index;
 		int numToCheck;
 
-		//cout << "enter server number " << endl;
 		cin >> numToCheck;
 
 		if (isServerValid(numToCheck, numOfServer))
@@ -114,7 +104,6 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer)
 		}
 
 
-		//cout << "enter pc number to connect " << endl;
 		cin >> numToCheck;
 
 		if (isPcValid(numToCheck, numOfServer, vectorOfList, servNum))
@@ -224,6 +213,9 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 			{
 				tempListNode = currentNodeInList;
 				currentNodeInList = &(listOfServers[curr.getServerNum()].getArr()[currentNodeInList->getNext()]);
+				Item tempItem(tempListNode, currentNodeInList, curr.getServerNum());
+				curr = tempItem;
+				s.push(curr);
 				returnFromRec = 0;
 			}
 			else
