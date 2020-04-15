@@ -240,6 +240,7 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 		nextLoc = dataToAdd - 1;
 		if (colorsArr[nextLoc] == WHITE)// check if the next location is white
 		{
+			colorsArr[nextLoc] = BLACK;//mark in black no need to visit again
 			if (listOfServers[nextLoc].getRealSize() != 0)//if the server list is not empty add is head to the stack
 			{
 				head = listOfServers[nextLoc].getHead();
@@ -254,7 +255,6 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 			{
 				returnFromRec = 1;
 			}
-			colorsArr[nextLoc] = BLACK;//mark in black no need to visit again
 		}
 		else
 			returnFromRec = 1;
