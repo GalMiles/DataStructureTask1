@@ -31,7 +31,7 @@ int main()
 	else
 	{
 		cout << "no such computer " << numToCheck << endl;
-		exit(-1);
+		exit(1);
 	}
 
 	copy = serverList[serverToCheck - 1];//copy the list before the change
@@ -90,7 +90,7 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer)
 		else
 		{
 			cout << "no such computer " << numToCheck << endl;
-			exit(-1);
+			exit(1);
 		}
 
 
@@ -103,7 +103,7 @@ void makeLst(vector<List>& vectorOfList, int linkedSerever, int numOfServer)
 		else
 		{
 			cout << "no such computer " << numToCheck << endl;
-			exit(-1);
+			exit(1);
 		}
 
 
@@ -185,11 +185,10 @@ void FindAccessibleRec(vector<List>& listOfServers, int serverToCheck, List& lst
 
 void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& lstToReturn, bool* colorsArr)
 {
-	//5 5 1 4 2 4 3 2 3 5 4 5 1
 	Stack s;
 	Item tempItem;
 	ListNode* tempListNode = nullptr;
-	int index, tempNum, nextLoc;
+	int index, tempNum, nextLoc, flagAlreadyVisitThisList = 1;
 	int serverToCheckMinusOne = serverToCheck - 1;
 	int returnFromRec = 0;
 	int size = listOfServers[serverToCheckMinusOne].getRealSize();
@@ -197,18 +196,14 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 	ListNode* currentNodeInList = &(listOfServers[serverToCheckMinusOne].getArr()[head]);//saving the address of the first listNode
 	Item curr(nullptr, currentNodeInList, serverToCheckMinusOne);//creating item object
 	s.push(curr);//to stack
-
 	while (!s.isEmpty())
 	{
-
-		if (returnFromRec)//indicates we need to come back from rec
+		if (returnFromRec)
 		{
 			curr = s.pop();
 			currentNodeInList = curr.getMyAddress();
 			if (currentNodeInList->getNext() != -1)
 			{
-				if (s.isEmpty() && colorsArr[curr.getServerNum()] == WHITE)//if not finish all the nodes in a list and stack is empty put again the last curr for keep moving on the list
-					s.push(curr);
 				tempListNode = currentNodeInList;
 				currentNodeInList = &(listOfServers[curr.getServerNum()].getArr()[currentNodeInList->getNext()]);
 				returnFromRec = 0;
@@ -216,7 +211,6 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 			else
 				returnFromRec = 1;
 		}
-
 		int dataToAdd = currentNodeInList->getData();
 		ListNode serverToAdd(dataToAdd, 1);
 		if (lstToReturn.ifExistedAndTail(dataToAdd, index))//check if node already exist if not will return the tail index
@@ -226,34 +220,27 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 			lstToReturn.insertNode(serverToAdd, index);
 		}
 		nextLoc = dataToAdd - 1;
-
-		if (currentNodeInList->getNext() == -1) //check if list of current server is empty after this node if yes added and mark as black
-		{
-			colorsArr[curr.getServerNum()] = BLACK;
-			returnFromRec = 1;
-		}
-		if (listOfServers[nextLoc].getRealSize() == 0)
-		{
-			colorsArr[nextLoc] = BLACK;
-			returnFromRec = 1;
-		}
-		if (colorsArr[curr.getServerNum()] == WHITE && colorsArr[nextLoc] == BLACK)
-		{
-			Item tempItem(tempListNode, currentNodeInList, curr.getServerNum());
-			curr = tempItem;
-			s.push(curr);
-			returnFromRec = 1;
-		}
 		if (colorsArr[nextLoc] == WHITE)
 		{
-			head = listOfServers[nextLoc].getHead();
-			tempListNode = currentNodeInList;
-			currentNodeInList = &listOfServers[nextLoc].getArr()[head];
-			Item tempItem(tempListNode, currentNodeInList, nextLoc);
-			curr = tempItem;
-			s.push(curr);
-			returnFromRec = 0;
+			if (listOfServers[nextLoc].getRealSize() != 0)
+			{
+				head = listOfServers[nextLoc].getHead();
+				tempListNode = currentNodeInList;
+				currentNodeInList = &listOfServers[nextLoc].getArr()[head];
+				Item tempItem(tempListNode, currentNodeInList, nextLoc);
+				curr = tempItem;
+				s.push(curr);
+				returnFromRec = 0;
+			}
+			else
+			{
+				returnFromRec = 1;
+			}
+			colorsArr[nextLoc] = BLACK;
 		}
+		else
+			returnFromRec = 1;
+
 	}
 }
 void makeColors(bool* colorsArr, int size)
@@ -264,11 +251,9 @@ void makeColors(bool* colorsArr, int size)
 
 int isPositive(int num)
 {
-	while (num <= 0)
+	if (num <= 0)
 	{
-		cout << "Numer must be positive!" << endl;
-		cout << "Please enter num of servers" << endl;
-		cin >> num;
+		return 0;
 	}
 	return num;//when num is positive
 }

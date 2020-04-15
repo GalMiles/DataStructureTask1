@@ -38,7 +38,6 @@ List::List(List&& other)//move c'tor
 List::~List()//d'tor
 {
 	delete[] arr;
-
 }
 
 List List::makeEmpty()
