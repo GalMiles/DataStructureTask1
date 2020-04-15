@@ -15,7 +15,7 @@ Node::Node(const Item& data, Node* next)
 Node::Node(const Node& other)
 {
 	this->data = other.data;
-	this->next = new Node(*other.next);
+	this->next = other.next;
 }
 
 Node::~Node()

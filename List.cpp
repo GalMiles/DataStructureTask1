@@ -1,6 +1,5 @@
 #include "List.h"
 
-
 List::List(int headList, int headFree, int size, int realSize)
 {
 	this->headList = headList;
@@ -108,9 +107,13 @@ void List::operator=(const List& other)
 	headList = other.headList;
 	size = other.size;
 	realSize = other.realSize;
-	arr = new ListNode[size];
+	delete[] this->arr;
+
+	this->arr = new ListNode[size];
 	for (int i = 0; i < size; i++)
+	{
 		arr[i] = other.arr[i];
+	}
 }
 
 void List::setHeadList(int newHead)

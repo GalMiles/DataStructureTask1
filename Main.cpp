@@ -3,6 +3,10 @@
 #include <vector>
 #include "Stack.h"
 
+#include <stdlib.h>
+#include <crtdbg.h>
+
+
 using namespace std;
 void FindAccessibleRecHelper(vector<List>& listOfServers, int serverToCheck, int size);
 void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, int size);
@@ -20,6 +24,7 @@ bool isPcValid(int num, int numOfServer, vector<List> listOfServers, int servNum
 
 int main()
 {
+
 	int serverToCheck, numOfServers, numToCheck;
 	vector<List> serverList = getInput(numOfServers);//get input from user, making the server list and connection between each server
 	List copy(-1, 0, numOfServers, 0);//copy the wanted list before changing in recursive function
@@ -49,6 +54,7 @@ int main()
 	serverList[serverToCheck - 1].printList();
 	cout << endl;
 
+	cout << _CrtDumpMemoryLeaks();
 	return 0;
 }
 
@@ -61,10 +67,24 @@ vector<List> getInput(int& numOfServers)
 
 	//cout << "please enter num of servers" << endl;
 	cin >> numToCheck;
-	numOfServers = isPositive(numToCheck);//size
-										  //cout << "please enter number of linked servers" << endl;
+	if (isPositive(numToCheck))//size
+		numOfServers = numToCheck;
+	else
+	{
+		cout << "no such computer " << numToCheck << endl;
+		exit(-1);
+	}
+	
+	//cout << "please enter number of linked servers" << endl;
 	cin >> numToCheck;
-	linkedServerNum = isPositive(numToCheck);//copule amount
+
+	if (isPositive(numToCheck))//size
+		linkedServerNum = numToCheck;
+	else
+	{
+		cout << "no such computer " << numToCheck << endl;
+		exit(-1);
+	}
 
 	for (int i = 0; i < numOfServers; i++)
 	{
@@ -255,7 +275,7 @@ int isPositive(int num)
 	{
 		return 0;
 	}
-	return num;//when num is positive
+	return num;
 }
 
 bool isServerValid(int num, int numOfServer)
