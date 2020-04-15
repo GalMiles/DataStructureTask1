@@ -175,8 +175,6 @@ void FindAccessibleStackHelper(vector<List>& listOfServers, int serverToCheck, i
 	delete[] colorsArr;
 }
 
-
-
 void FindAccessibleRec(vector<List>& listOfServers, int serverToCheck, List& lstToReturn, bool* colorsArr)
 {
 	int size, index, head;
@@ -218,11 +216,11 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 	s.push(curr);//to stack
 	while (!s.isEmpty())
 	{
-		if (returnFromRec)
+		if (returnFromRec)//indicates we are back from recursive call
 		{
 			curr = s.pop();
 			currentNodeInList = curr.getMyAddress();
-			if (currentNodeInList->getNext() != -1)
+			if (currentNodeInList->getNext() != -1)//check if there is next for our current list
 			{
 				tempListNode = currentNodeInList;
 				currentNodeInList = &(listOfServers[curr.getServerNum()].getArr()[currentNodeInList->getNext()]);
@@ -240,9 +238,9 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 			lstToReturn.insertNode(serverToAdd, index);
 		}
 		nextLoc = dataToAdd - 1;
-		if (colorsArr[nextLoc] == WHITE)
+		if (colorsArr[nextLoc] == WHITE)// check if the next location is white
 		{
-			if (listOfServers[nextLoc].getRealSize() != 0)
+			if (listOfServers[nextLoc].getRealSize() != 0)//if the server list is not empty add is head to the stack
 			{
 				head = listOfServers[nextLoc].getHead();
 				tempListNode = currentNodeInList;
@@ -256,7 +254,7 @@ void FindAccessibleStack(vector<List>& listOfServers, int serverToCheck, List& l
 			{
 				returnFromRec = 1;
 			}
-			colorsArr[nextLoc] = BLACK;
+			colorsArr[nextLoc] = BLACK;//mark in black no need to visit again
 		}
 		else
 			returnFromRec = 1;
